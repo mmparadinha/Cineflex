@@ -19,6 +19,7 @@ const Container = styled.div`
     background-color: #C3CFD9;
     width: 100%;
     height: 67px;
+    padding: 20px;
     position: fixed;
     top: 0;
     left: 0;

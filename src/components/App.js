@@ -3,6 +3,7 @@ import GlobalStyles from './GlobalStyles';
 import Header from './Header';
 import Home from './home/Home';
 import Sessao from './sessao/Sessao';
+import Reserva from './assentos/Reserva';
 
 export default function App() {
     return (
@@ -12,7 +13,8 @@ export default function App() {
                 <Header />
                 <Routes>
                     <Route path="/" element={<Home />}/>
-                    <Route path="filme/:filmeId" element={<Sessao />}/>
+                    <Route path="/filme/:filmeId" element={<Sessao />}/>
+                    <Route path="/sessao/" element={<Reserva />} />
                 </Routes>
             </BrowserRouter>
         </>
