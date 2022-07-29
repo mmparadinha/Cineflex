@@ -5,12 +5,12 @@ import Poster from "./Poster";
 
 
 export default function Home() {
-    const [inTheaters, setInTheaters] = useState([]);
+    const [emCartaz, setEmCartaz] = useState([]);
 
     useEffect(() => {
     const promise = axios.get('https://mock-api.driven.com.br/api/v7/cineflex/movies');
 
-    promise.then(answer => setInTheaters(answer.data));
+    promise.then(answer => setEmCartaz(answer.data));
     promise.catch(() => console.log('erro nos filmes'));
     },
     []);
@@ -19,7 +19,7 @@ export default function Home() {
         <Main>
             <h3>Selecione o filme</h3>
             <Container>
-                {inTheaters.map(value => <Poster inTheaters={value}/>)}
+                {emCartaz.map(value => <Poster emCartaz={value}/>)}
             </Container>
         </Main>
     )

@@ -1,14 +1,15 @@
 import styled from "styled-components";
 
-export default function Footer({ movie }) {
+export default function Footer({ filme, dia, hora }) {
     return (
         <Container>
-            <ContainerPoster key={movie.id}>
-                <img src={movie.posterURL} alt={movie.title} />
+            <ContainerPoster key={filme.id}>
+                <img src={filme.posterURL} alt={filme.title} />
             </ContainerPoster>
             <h2>
-                {movie.title}
+                {filme.title}
                 <br/>
+                {dia ? `${dia} - ${hora}` : ''}
             </h2>
         </Container>
     )

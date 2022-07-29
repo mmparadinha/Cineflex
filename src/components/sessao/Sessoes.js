@@ -5,28 +5,24 @@ import Footer from "../Footer";
 import { useState, useEffect } from "react";
 import Dias from "./Dias";
 
-export default function Sessao() {
-    const {filmeId} = useParams();
-    const [movie, setMovie] = useState([]);
-    const [showtime, setShowtime] = useState([]);
+export default function Sessoes() {
+    const {idFilme} = useParams();
+    const [filme, setFilme] = useState(null);
 
     useEffect(() => {
-    const promise = axios.get(`https://mock-api.driven.com.br/api/v7/cineflex/movies/${filmeId}/showtimes`);
+    const promise = axios.get(`https://mock-api.driven.com.br/api/v7/cineflex/movies/${idFilme}/showtimes`);
 
-    promise.then(answer => {
-        setMovie(answer.data);
+    promise.then(resposta => {
+        setFilme(resposta.data);
     });
-    promise.catch(() => console.log('erro nos filmes'));
-    },
-    []);
+    promise.catch(() => console.log('erro no filme'));
+    }, [idFilme]);
 
-    useEffect(() => setShowtime(movie.days), [movie]);
- 
     return (
         <Main>
             <h3>Selecione o horário</h3>
-            {showtime !== undefined ? showtime.map(value => <Dias showtime={value}/>) : console.log('erro')}
-            <Footer movie={movie} />
+            {filme !== null ? filme.days.map((valor) => <Dias data={valor.date} id={valor.id} horarios={valor.showtimes} dia={valor.weekday}/>) : '' }
+            {filme && <Footer filme={filme} />}
         </Main>
     )
 }

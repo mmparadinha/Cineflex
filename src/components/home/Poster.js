@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 
-export default function Poster({inTheaters}) {
+export default function Poster({emCartaz}) {
     return (
-        <Link to={`/filme/${inTheaters.id}`}>
-            <ContainerPoster key={inTheaters.id}>
-                <img src={inTheaters.posterURL} alt={inTheaters.title} />
+        <Link to={`/filme/${emCartaz.id}`}>
+            <ContainerPoster key={emCartaz.id}>
+                <img src={emCartaz.posterURL} alt={emCartaz.title} />
             </ContainerPoster>
         </Link>
 
