@@ -16,8 +16,6 @@ export default function Reserva() {
         promise.catch(() => console.log('deu erro nos assentos'));
     }, [idSessao]);
 
-    console.log(sessao)
-
     return (
         <Main>
             <h3>Selecione o(s) assento(s)</h3>

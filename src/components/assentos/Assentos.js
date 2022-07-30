@@ -1,15 +1,23 @@
 import styled from "styled-components";
+import {useState} from "react";
 
 export default function Assentos({idAssento, numeroAssento, disponivel}) {
+    const [selecionado, setSelecionado] = useState(false)
+
+    function escolherAssento() {
+        setSelecionado(!selecionado);
+    }
+
+
     if (disponivel) {
         return (
-            <AssentoDisponivel key={idAssento}>
+            <AssentoDisponivel key={idAssento} selecionado={selecionado} onClick={() => escolherAssento()}>
                 {numeroAssento}
             </AssentoDisponivel>
         )
     } else {
         return (
-            <AssentoIndisponivel key={idAssento}>
+            <AssentoIndisponivel key={idAssento} onClick={() => alert('Esse assento não está disponível')}>
                 {numeroAssento}
             </AssentoIndisponivel>
         )
@@ -18,8 +26,8 @@ export default function Assentos({idAssento, numeroAssento, disponivel}) {
 }
 
 const AssentoDisponivel = styled.div`
-    background-color: #C3CFD9;
-    border: solid 1px inset #808F9D;
+    background-color: ${props => props.selecionado ? '#8DD7CF' : '#C3CFD9'};
+    border: solid 1px inset ${props => props.selecionado ? '#45BDB0' : '#808F9D'};
 
     color: #000000;
     border-radius: 50%;
@@ -29,6 +37,10 @@ const AssentoDisponivel = styled.div`
     justify-content: center;
     align-items: center;
     font-size: 11px;
+    &&:hover {
+        cursor: pointer;
+        opacity: 0.8;
+    }
 `;
 
 const AssentoIndisponivel = styled.div`
@@ -43,4 +55,7 @@ const AssentoIndisponivel = styled.div`
     justify-content: center;
     align-items: center;
     font-size: 11px;
+    &&:hover {
+        cursor: not-allowed;
+    }
 `;
