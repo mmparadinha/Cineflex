@@ -27,7 +27,7 @@ export default function Home() {
 
 const Main = styled.div`
     font-family: 'Roboto', sans-serif;
-    margin-top: 67px;
+    margin-top: 70px;
     padding: 20px;
     display: flex;
     flex-direction: column;

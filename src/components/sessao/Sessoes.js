@@ -29,7 +29,8 @@ export default function Sessoes() {
 
 const Main = styled.div`
     font-family: 'Roboto', sans-serif;
-    margin-top: 67px;
+    width: 90%;
+    margin: 70px auto 120px;
     padding: 20px;
     display: flex;
     flex-direction: column;
