@@ -6,7 +6,7 @@ export default function Dias({data, id, horarios, dia}) {
         <Container key={id}>
             <h4>{dia} - {data}</h4>
             <Wrapper>
-                {horarios.map((value) => <Horarios hora={value.name} idSessao={value.id}/>)}
+                {horarios.map((value, index) => <Horarios key={index} hora={value.name} idSessao={value.id}/>)}
             </Wrapper>
         </Container>
     )

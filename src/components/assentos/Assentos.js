@@ -2,7 +2,7 @@ import styled from "styled-components";
 import {useState} from "react";
 
 export default function Assentos({idAssento, numeroAssento, disponivel, form, setForm, confirmacao, setConfirmacao}) {
-    const [selecionado, setSelecionado] = useState(false)
+    const [selecionado, setSelecionado] = useState(false);
 
     function idReservado(valor) {
         if (valor !== idAssento) {

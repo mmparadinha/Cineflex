@@ -3,18 +3,18 @@ import styled from "styled-components";
 export default function Legenda() {
     return (
         <Wrapper>
-         <div>
-            <ion-icon name="ellipse"></ion-icon>
-            Selecionado
-        </div>
-        <div>
-            <ion-icon name="ellipse"></ion-icon>
-            Disponível
-        </div>
-        <div>
-            <ion-icon name="ellipse"></ion-icon>
-            Indisponível
-        </div>
+            <div>
+                <ion-icon name="ellipse"></ion-icon>
+                Selecionado
+            </div>
+            <div>
+                <ion-icon name="ellipse"></ion-icon>
+                Disponível
+            </div>
+            <div>
+                <ion-icon name="ellipse"></ion-icon>
+                Indisponível
+            </div>
         </Wrapper>
     )
 }

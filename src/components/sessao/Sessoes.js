@@ -10,18 +10,19 @@ export default function Sessoes() {
     const [filme, setFilme] = useState(null);
 
     useEffect(() => {
-    const promise = axios.get(`https://mock-api.driven.com.br/api/v7/cineflex/movies/${idFilme}/showtimes`);
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v7/cineflex/movies/${idFilme}/showtimes`);
 
-    promise.then(resposta => {
-        setFilme(resposta.data);
-    });
-    promise.catch(() => console.log('erro no filme'));
-    }, [idFilme]);
+        promise.then(resposta => {
+            setFilme(resposta.data);
+        });
+        promise.catch(() => alert('Não conseguimos carregar as sessões, tente novamente'));
+        },
+    [idFilme]);
 
     return (
         <Main>
             <h3>Selecione o horário</h3>
-            {filme !== null ? filme.days.map((valor) => <Dias data={valor.date} id={valor.id} horarios={valor.showtimes} dia={valor.weekday}/>) : 'Carregando as sessões disponíveis' }
+            {filme !== null ? filme.days.map((valor, index) => <Dias key={index} data={valor.date} id={valor.id} horarios={valor.showtimes} dia={valor.weekday}/>) : 'Carregando as sessões disponíveis' }
             {filme && <Footer filme={filme} />}
         </Main>
     )

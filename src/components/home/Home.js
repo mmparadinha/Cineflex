@@ -21,14 +21,13 @@ export default function Home({setConfirmacao}) {
         promise.then(answer => setEmCartaz(answer.data));
         promise.catch(() => alert('Esquecemos de ligar as luzes e não achamos os filmes em cartaz, tenta de novo!'));
         },
-        []
-    );
+    []);
 
     return (
         <Main>
             <h3>Selecione o filme</h3>
             <Container>
-                {emCartaz !== null ? emCartaz.map(value => <Poster emCartaz={value}/>) : 'Carregando os filmes em exibição'}
+                {emCartaz !== null ? emCartaz.map((value, index) => <Poster key={index} emCartaz={value}/>) : 'Carregando os filmes em exibição'}
             </Container>
         </Main>
     )

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export default function Poster({emCartaz}) {
     return (
         <Link to={`/filme/${emCartaz.id}`}>
-            <ContainerPoster key={emCartaz.id}>
+            <ContainerPoster>
                 <img src={emCartaz.posterURL} alt={emCartaz.title} />
             </ContainerPoster>
         </Link>

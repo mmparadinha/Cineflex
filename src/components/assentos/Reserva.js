@@ -17,7 +17,7 @@ export default function Reserva({confirmacao, setConfirmacao}) {
     });
 
     function preencherFormulario(e) {
-        setForm({ ...form, [e.target.name]: e.target.value })
+        setForm({ ...form, [e.target.name]: e.target.value });
     }
 
     function conferirDados() {
@@ -37,21 +37,21 @@ export default function Reserva({confirmacao, setConfirmacao}) {
     function enviarFormulario() {
         const promise = axios.post('https://mock-api.driven.com.br/api/v7/cineflex/seats/book-many', form);
         promise.then(() => {navigate('/sucesso')});
-        promise.catch(() => alert('Não foi possível confirmar sua reserva, tente novamente!'))
+        promise.catch(() => alert('Não foi possível confirmar sua reserva, tente novamente!'));
     }
 
     useEffect(() => {
-        const promise = axios.get(`https://mock-api.driven.com.br/api/v7/cineflex/showtimes/${idSessao}/seats`)
-
+        const promise = axios.get(`https://mock-api.driven.com.br/api/v7/cineflex/showtimes/${idSessao}/seats`);
         promise.then((resposta) => setSessao(resposta.data));
         promise.catch(() => alert('Tivemos um problema, por favor tente novamente!'));
-    }, [idSessao]);
+        },
+    [idSessao]);
 
     return (
             <Main>
                 <h3>Selecione o(s) assento(s)</h3>
                 <Sala>
-                    {sessao !== null ? sessao.seats.map((valor) => <Assentos idAssento={valor.id} numeroAssento={valor.name} disponivel={valor.isAvailable} form={form} setForm={setForm} confirmacao={confirmacao} setConfirmacao={setConfirmacao}/>) : 'Carregando os assentos da sessão!'}
+                    {sessao !== null ? sessao.seats.map((valor, index) => <Assentos key={index} idAssento={valor.id} numeroAssento={valor.name} disponivel={valor.isAvailable} form={form} setForm={setForm} confirmacao={confirmacao} setConfirmacao={setConfirmacao}/>) : 'Carregando os assentos da sessão!'}
                 </Sala>
                 <Legenda />
                 <Dados>
@@ -61,7 +61,6 @@ export default function Reserva({confirmacao, setConfirmacao}) {
                     <input required name='cpf' value={form.cpf} onChange={preencherFormulario} placeholder="Digite seu CPF..."></input>
                     <button onClick={conferirDados}>Reservar assento(s)</button>
                 </Dados>
-
                 {sessao && <Footer filme={sessao.movie} dia={sessao.day.weekday} hora={sessao.name} />}
             </Main>
     )
