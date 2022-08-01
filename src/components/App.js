@@ -17,7 +17,6 @@ export default function App() {
                     <Route path="/filme/:idFilme" element={<Sessoes />}/>
                     <Route path="/sessao/:idSessao" element={<Reserva />} />
                     <Route path="/sucesso" element={<Sucesso />} />
-
                 </Routes>
             </BrowserRouter>
         </>

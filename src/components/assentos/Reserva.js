@@ -1,10 +1,11 @@
 import styled from "styled-components";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import Footer from "../Footer";
 import { useState, useEffect } from "react";
 import Assentos from "./Assentos";
 import Legenda from "./Legenda";
+import Conferencia from "./Conferencia";
 
 export default function Reserva() {
     const { idSessao } = useParams();
@@ -14,6 +15,7 @@ export default function Reserva() {
         name: '',
         cpf: ''
     });
+    const [confirmar, setConfirmar] = useState(true)
 
     console.log(form.ids)
 
@@ -32,7 +34,7 @@ export default function Reserva() {
         console.log(form)
 
         const promise = axios.post('https://mock-api.driven.com.br/api/v7/cineflex/seats/book-many', form);
-        promise.then(() => console.log('descobrir como mudar de pagina'));
+        promise.then(() => setConfirmar(true));
         promise.catch(() => console.log('deu erro na reserva'))
     }
 
@@ -44,22 +46,25 @@ export default function Reserva() {
     }, [idSessao]);
 
     return (
-        <Main>
-            <h3>Selecione o(s) assento(s)</h3>
-            <Sala>
-                {sessao !== null ? sessao.seats.map((valor) => <Assentos idAssento={valor.id} numeroAssento={valor.name} disponivel={valor.isAvailable} form={form} setForm={setForm} />) : 'Carregando os assentos da sessão!'}
-            </Sala>
-            <Legenda />
-            <Dados>
-                <h5>Nome do comprador:</h5>
-                <input required name='name' value={form.name} onChange={preencherFormulario} placeholder="Digite seu nome..."></input>
-                <h5>CPF do comprador:</h5>
-                <input required name='cpf' value={form.cpf} onChange={preencherFormulario} placeholder="Digite seu CPF..."></input>
-                <button onClick={conferirDados}>Reservar assento(s)</button>
-            </Dados>
+        <>
+            {confirmar && sessao && <Conferencia form={form} filme={sessao.movie} dia={sessao.day.weekday} hora={sessao.name}/>}
+            <Main>
+                <h3>Selecione o(s) assento(s)</h3>
+                <Sala>
+                    {sessao !== null ? sessao.seats.map((valor) => <Assentos idAssento={valor.id} numeroAssento={valor.name} disponivel={valor.isAvailable} form={form} setForm={setForm} />) : 'Carregando os assentos da sessão!'}
+                </Sala>
+                <Legenda />
+                <Dados>
+                    <h5>Nome do comprador:</h5>
+                    <input required name='name' value={form.name} onChange={preencherFormulario} placeholder="Digite seu nome..."></input>
+                    <h5>CPF do comprador:</h5>
+                    <input required name='cpf' value={form.cpf} onChange={preencherFormulario} placeholder="Digite seu CPF..."></input>
+                    <button onClick={conferirDados}>Reservar assento(s)</button>
+                </Dados>
 
-            {sessao && <Footer filme={sessao.movie} dia={sessao.day.weekday} hora={sessao.name} />}
-        </Main>
+                {sessao && !confirmar && <Footer filme={sessao.movie} dia={sessao.day.weekday} hora={sessao.name} />}
+            </Main>
+        </>
     )
 }
 
@@ -67,10 +72,11 @@ const Main = styled.div`
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     width: 90%;
-    margin: 70px auto 120px;
+    margin: 67px auto 120px;
     padding: 20px;
     display: flex;
     flex-direction: column;
+    color: #293845;
 
     h3 {
         text-align: center;

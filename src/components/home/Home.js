@@ -27,12 +27,13 @@ export default function Home() {
 
 const Main = styled.div`
     font-family: 'Roboto', sans-serif;
-    margin-top: 70px;
+    margin-top: 67px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    color: #293845;
 
     h3 {
         font-size: 24px;

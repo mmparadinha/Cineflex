@@ -30,10 +30,11 @@ export default function Sessoes() {
 const Main = styled.div`
     font-family: 'Roboto', sans-serif;
     width: 90%;
-    margin: 70px auto 120px;
+    margin: 67px auto 120px;
     padding: 20px;
     display: flex;
     flex-direction: column;
+    color: #293845;
 
     h3 {
         text-align: center;
