@@ -1,22 +1,21 @@
 import styled from "styled-components";
-import { Params, Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export default function Sucesso({name, filme, dia, hora}) {
-    console.log(name, filme, dia, hora)
+export default function Sucesso({confirmacao}) {
     return (
         <Main>
             <h3>Pedido feito <br /> com sucesso!</h3>
             <Container>
                 <h3>Filme e sessão</h3>
-                <p>filme</p>
-                <p>dia horario</p>
+                <p>{confirmacao.filme}</p>
+                <p>{confirmacao.dia} {confirmacao.hora}</p>
 
                 <h3>Ingressos</h3>
-                <p>Assento xx</p>
+                {confirmacao.assentos.map(valor => <p>Assento {valor}</p>)}
 
                 <h3>Comprador</h3>
-                <p>Nome: nome</p>
-                <p>CPF: cpf</p>
+                <p>Nome: {confirmacao.nome}</p>
+                <p>CPF: {confirmacao.cpf}</p>
             </Container>
             <Link to={'/'}>
                 <Button>Voltar para Home</Button>

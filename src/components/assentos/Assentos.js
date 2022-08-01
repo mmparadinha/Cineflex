@@ -1,37 +1,41 @@
 import styled from "styled-components";
 import {useState} from "react";
 
-export default function Assentos({idAssento, numeroAssento, disponivel, form, setForm}) {
+export default function Assentos({idAssento, numeroAssento, disponivel, form, setForm, confirmacao, setConfirmacao}) {
     const [selecionado, setSelecionado] = useState(false)
 
-    function reservado(numero) {
-        if (numero !== idAssento) {
+    function idReservado(valor) {
+        if (valor !== idAssento) {
             return true;
         }
-        return false;
     }
 
-    function escolherAssento(idAssento) {
-        console.log(form.ids, 'pré')
-        setSelecionado(!selecionado);
-        for (let i = 0; i < form.ids.length; i++) {
-            if (form.ids[i] === idAssento) {
-                return setForm({...form, ids: form.ids.filter(reservado)});
-            }
+    function numeroReservado(valor) {
+        if (valor !== numeroAssento) {
+            return true;
         }
-        console.log(form.ids, 'pós')
-        setForm({ ...form, ids: [...form.ids, idAssento] })
+    }
+
+    function escolherAssento() {
+        setSelecionado(!selecionado);
+            if (selecionado) {
+                setConfirmacao({...confirmacao, assentos: confirmacao.assentos.filter(numeroReservado)});
+                setForm({...form, ids: form.ids.filter(idReservado)});
+                return;
+            }
+        setConfirmacao({...confirmacao, assentos: [...confirmacao.assentos, numeroAssento]});
+        setForm({ ...form, ids: [...form.ids, idAssento] });
     }
 
     if (disponivel) {
         return (
-            <AssentoDisponivel key={idAssento} selecionado={selecionado} onClick={() => escolherAssento(idAssento)}>
+            <AssentoDisponivel selecionado={selecionado} onClick={() => escolherAssento()}>
                 {numeroAssento}
             </AssentoDisponivel>
         )
     } else {
         return (
-            <AssentoIndisponivel key={idAssento} onClick={() => alert('Esse assento não está disponível')}>
+            <AssentoIndisponivel onClick={() => alert('Esse assento não está disponível')}>
                 {numeroAssento}
             </AssentoIndisponivel>
         )

@@ -4,16 +4,25 @@ import { useState, useEffect } from "react";
 import Poster from "./Poster";
 
 
-export default function Home() {
+export default function Home({setConfirmacao}) {
     const [emCartaz, setEmCartaz] = useState(null);
-
+    
     useEffect(() => {
-    const promise = axios.get('https://mock-api.driven.com.br/api/v7/cineflex/movies');
+        setConfirmacao({
+            filme: '',
+            dia: '',
+            hora: '',
+            assentos: [],
+            nome: '',
+            cpf: ''
+        });
+        const promise = axios.get('https://mock-api.driven.com.br/api/v7/cineflex/movies');
 
-    promise.then(answer => setEmCartaz(answer.data));
-    promise.catch(() => console.log('erro nos filmes'));
-    },
-    []);
+        promise.then(answer => setEmCartaz(answer.data));
+        promise.catch(() => alert('Esquecemos de ligar as luzes e não achamos os filmes em cartaz, tenta de novo!'));
+        },
+        []
+    );
 
     return (
         <Main>

@@ -1,23 +1,20 @@
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Footer from "../Footer";
-import { useState, useEffect } from "react";
 import Assentos from "./Assentos";
 import Legenda from "./Legenda";
-import Conferencia from "./Conferencia";
 
-export default function Reserva() {
+export default function Reserva({confirmacao, setConfirmacao}) {
     const { idSessao } = useParams();
+    const navigate = useNavigate();
     const [sessao, setSessao] = useState(null);
     const [form, setForm] = useState({
         ids: [],
         name: '',
         cpf: ''
     });
-    const [confirmar, setConfirmar] = useState(true)
-
-    console.log(form.ids)
 
     function preencherFormulario(e) {
         setForm({ ...form, [e.target.name]: e.target.value })
@@ -27,31 +24,34 @@ export default function Reserva() {
         if (form.ids.length === 0) return alert('Escolha algum assento');
         if (form.name === '') return alert('Preencha o nome do responsável pela compra');
         if (form.cpf === '') return alert('Preencha o CPF do responsável pela compra');
+        setConfirmacao({...confirmacao,
+            filme: sessao.movie.title,
+            dia: sessao.day.weekday,
+            hora: sessao.name,
+            nome: form.name,
+            cpf: form.cpf
+        });
         enviarFormulario();
     }
 
     function enviarFormulario() {
-        console.log(form)
-
         const promise = axios.post('https://mock-api.driven.com.br/api/v7/cineflex/seats/book-many', form);
-        promise.then(() => setConfirmar(true));
-        promise.catch(() => console.log('deu erro na reserva'))
+        promise.then(() => {navigate('/sucesso')});
+        promise.catch(() => alert('Não foi possível confirmar sua reserva, tente novamente!'))
     }
 
     useEffect(() => {
         const promise = axios.get(`https://mock-api.driven.com.br/api/v7/cineflex/showtimes/${idSessao}/seats`)
 
         promise.then((resposta) => setSessao(resposta.data));
-        promise.catch(() => console.log('deu erro nos assentos'));
+        promise.catch(() => alert('Tivemos um problema, por favor tente novamente!'));
     }, [idSessao]);
 
     return (
-        <>
-            {confirmar && sessao && <Conferencia form={form} filme={sessao.movie} dia={sessao.day.weekday} hora={sessao.name}/>}
             <Main>
                 <h3>Selecione o(s) assento(s)</h3>
                 <Sala>
-                    {sessao !== null ? sessao.seats.map((valor) => <Assentos idAssento={valor.id} numeroAssento={valor.name} disponivel={valor.isAvailable} form={form} setForm={setForm} />) : 'Carregando os assentos da sessão!'}
+                    {sessao !== null ? sessao.seats.map((valor) => <Assentos idAssento={valor.id} numeroAssento={valor.name} disponivel={valor.isAvailable} form={form} setForm={setForm} confirmacao={confirmacao} setConfirmacao={setConfirmacao}/>) : 'Carregando os assentos da sessão!'}
                 </Sala>
                 <Legenda />
                 <Dados>
@@ -62,9 +62,8 @@ export default function Reserva() {
                     <button onClick={conferirDados}>Reservar assento(s)</button>
                 </Dados>
 
-                {sessao && !confirmar && <Footer filme={sessao.movie} dia={sessao.day.weekday} hora={sessao.name} />}
+                {sessao && <Footer filme={sessao.movie} dia={sessao.day.weekday} hora={sessao.name} />}
             </Main>
-        </>
     )
 }
 
