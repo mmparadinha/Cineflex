@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import {useState} from "react";
 
-export default function Assentos({idAssento, numeroAssento, disponivel, reservar, setReservar}) {
+export default function Assentos({idAssento, numeroAssento, disponivel, form, setForm}) {
     const [selecionado, setSelecionado] = useState(false)
 
     function reservado(numero) {
@@ -12,13 +12,15 @@ export default function Assentos({idAssento, numeroAssento, disponivel, reservar
     }
 
     function escolherAssento(idAssento) {
+        console.log(form.ids, 'pré')
         setSelecionado(!selecionado);
-        for (let i = 0; i < reservar.length; i++) {
-            if (reservar[i] === idAssento) {
-                return setReservar(reservar.filter(reservado));
+        for (let i = 0; i < form.ids.length; i++) {
+            if (form.ids[i] === idAssento) {
+                return setForm({...form, ids: form.ids.filter(reservado)});
             }
         }
-        setReservar([...reservar, idAssento]);
+        console.log(form.ids, 'pós')
+        setForm({ ...form, ids: [...form.ids, idAssento] })
     }
 
     if (disponivel) {

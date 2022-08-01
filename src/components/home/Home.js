@@ -5,7 +5,7 @@ import Poster from "./Poster";
 
 
 export default function Home() {
-    const [emCartaz, setEmCartaz] = useState([]);
+    const [emCartaz, setEmCartaz] = useState(null);
 
     useEffect(() => {
     const promise = axios.get('https://mock-api.driven.com.br/api/v7/cineflex/movies');
@@ -19,7 +19,7 @@ export default function Home() {
         <Main>
             <h3>Selecione o filme</h3>
             <Container>
-                {emCartaz.map(value => <Poster emCartaz={value}/>)}
+                {emCartaz !== null ? emCartaz.map(value => <Poster emCartaz={value}/>) : 'Carregando os filmes em exibição'}
             </Container>
         </Main>
     )
@@ -38,6 +38,7 @@ const Main = styled.div`
         font-size: 24px;
         font-weight: 400;
         margin: 30px 0;
+        text-align: center;
     }
 `;
 

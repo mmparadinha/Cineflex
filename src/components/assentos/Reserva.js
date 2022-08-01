@@ -9,25 +9,31 @@ import Legenda from "./Legenda";
 export default function Reserva() {
     const { idSessao } = useParams();
     const [sessao, setSessao] = useState(null);
-    const [reservar, setReservar] = useState([]);
-    const [nomeComprador, setNomeComprador] = useState('');
-    const [CPFComprador, setCPFComprador] = useState('');
+    const [form, setForm] = useState({
+        ids: [],
+        name: '',
+        cpf: ''
+    });
 
-    function reservarAssentos(event) {
-        event.preventDefault();
-        console.log(reservar, nomeComprador, CPFComprador)
+    console.log(form.ids)
 
-        if (reservar.length === 0) {
-            alert('Escolha algum assento')
-        } else {
-            const promise = axios.post('https://mock-api.driven.com.br/api/v7/cineflex/seats/book-many', {
-                ids: {reservar},
-                name: {nomeComprador},
-                cpf: {CPFComprador}
-            });
-            promise.then(() => console.log('reservemo'));
-            promise.catch(() => console.log('deu erro na reserva'))
-        }
+    function preencherFormulario(e) {
+        setForm({ ...form, [e.target.name]: e.target.value })
+    }
+
+    function conferirDados() {
+        if (form.ids.length === 0) return alert('Escolha algum assento');
+        if (form.name === '') return alert('Preencha o nome do responsável pela compra');
+        if (form.cpf === '') return alert('Preencha o CPF do responsável pela compra');
+        enviarFormulario();
+    }
+
+    function enviarFormulario() {
+        console.log(form)
+
+        const promise = axios.post('https://mock-api.driven.com.br/api/v7/cineflex/seats/book-many', form);
+        promise.then(() => console.log('descobrir como mudar de pagina'));
+        promise.catch(() => console.log('deu erro na reserva'))
     }
 
     useEffect(() => {
@@ -41,19 +47,15 @@ export default function Reserva() {
         <Main>
             <h3>Selecione o(s) assento(s)</h3>
             <Sala>
-                {sessao && sessao.seats.map((valor) => <Assentos idAssento={valor.id} numeroAssento={valor.name} disponivel={valor.isAvailable} reservar={reservar} setReservar={setReservar}/>)}
+                {sessao !== null ? sessao.seats.map((valor) => <Assentos idAssento={valor.id} numeroAssento={valor.name} disponivel={valor.isAvailable} form={form} setForm={setForm} />) : 'Carregando os assentos da sessão!'}
             </Sala>
             <Legenda />
             <Dados>
-                <form onSubmit={() => reservarAssentos}>
-                    <h5>Nome do comprador:</h5>
-                    <input  required value={nomeComprador} onChange={e => setNomeComprador(e.target.value)}placeholder="Digite seu nome..."></input>
-                    <h5>CPF do comprador:</h5>
-                    <input required value={CPFComprador} onChange={e => setCPFComprador(e.target.value)} placeholder="Digite seu CPF..."></input>
-                    <Link to={'/sucesso'}>
-                        <button type="submit">Reservar assento(s)</button>
-                    </Link>
-                </form>
+                <h5>Nome do comprador:</h5>
+                <input required name='name' value={form.name} onChange={preencherFormulario} placeholder="Digite seu nome..."></input>
+                <h5>CPF do comprador:</h5>
+                <input required name='cpf' value={form.cpf} onChange={preencherFormulario} placeholder="Digite seu CPF..."></input>
+                <button onClick={conferirDados}>Reservar assento(s)</button>
             </Dados>
 
             {sessao && <Footer filme={sessao.movie} dia={sessao.day.weekday} hora={sessao.name} />}
@@ -120,7 +122,7 @@ const Dados = styled.div`
         color: #FFFFFF;
         font-size: 18px;
 
-        &&:hover {
+        &:hover {
         cursor: pointer;
         }
     }

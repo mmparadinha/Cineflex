@@ -21,7 +21,7 @@ export default function Sessoes() {
     return (
         <Main>
             <h3>Selecione o horário</h3>
-            {filme !== null ? filme.days.map((valor) => <Dias data={valor.date} id={valor.id} horarios={valor.showtimes} dia={valor.weekday}/>) : '' }
+            {filme !== null ? filme.days.map((valor) => <Dias data={valor.date} id={valor.id} horarios={valor.showtimes} dia={valor.weekday}/>) : 'Carregando as sessões disponíveis' }
             {filme && <Footer filme={filme} />}
         </Main>
     )
@@ -40,5 +40,6 @@ const Main = styled.div`
         font-size: 24px;
         font-weight: 400;
         margin: 30px 0;
+        text-align: center;
     }
 `;
